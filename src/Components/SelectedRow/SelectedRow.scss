@@ -1,0 +1,19 @@
+.selected-row {
+  background-color: rgb(240, 240, 240);
+  text-align: center;
+  width: 100%;
+  margin: 0 auto;
+  padding: 10px 20px;
+
+  p {
+    font-size: 1.2rem;
+    line-height: 1.2;
+  }
+
+  textarea {
+    margin: 5px 0;
+    padding: 5px 10px;
+    height: 160px;
+    text-align: justify;
+  }
+}

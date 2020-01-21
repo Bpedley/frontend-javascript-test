@@ -1,0 +1,43 @@
+.btn {
+  background-color: white;
+  padding: 5px 10px;
+  border: 1px solid black;
+  font-size: 1.2rem;
+  transition: background-color 0.4s;
+  width: 50%;
+  height: 100%;
+
+  &:hover {
+    background-color: rgb(230, 230, 230);
+  }
+}
+
+.input-fields {
+  display: flex;
+  flex-direction: column;
+  padding: 25px 15px;
+  background-color: rgb(240, 240, 240);
+
+  label {
+    text-align: center;
+    margin: 15px 0 10px;
+
+    &:first-child {
+      margin-top: 0;
+    }
+  }
+
+  input {
+    font-size: 1.2rem;
+    margin: 0 auto;
+    padding: 5px 10px;
+    width: 100%;
+    max-width: 450px;
+    min-width: 450px;
+    margin: 0 auto;
+
+    @media screen and (max-width: 576px) {
+      min-width: 200px;
+    }
+  }
+}
