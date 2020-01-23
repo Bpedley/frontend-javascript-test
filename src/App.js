@@ -130,6 +130,11 @@ class App extends Component {
           className="-striped -highlight"
           getTrProps={this.selectRow}
           defaultSorted={[{ id: "id", desc: false }]}
+          pageText="Страница"
+          rowsText="строк"
+          previousText="Предыдущая"
+          nextText="Следующая"
+          noDataText="Строки не найдены"
         />
         {this.state.selected.email ? (
           <SelectedRow data={this.state.selected} />
