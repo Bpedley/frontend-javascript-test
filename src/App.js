@@ -13,7 +13,6 @@ class App extends Component {
     filteredData: [],
     selected: [],
     searchInput: "",
-    currentSelect: "32 строки",
     isLoading: false
   };
 
@@ -36,23 +35,6 @@ class App extends Component {
     this.setState({ searchInput: targetValue }, () => {
       this.globalSearch();
     });
-  };
-
-  handleSelectChange = e => {
-    this.setState({ currentSelect: e.target.currentSelect });
-  };
-
-  handleSelectSubmit = e => {
-    e.preventDefault();
-    let url;
-    if (this.state.currentSelect === "32 строки") {
-      url =
-        "https://cors-anywhere.herokuapp.com/http://www.filltext.com/?rows=32&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}";
-    } else {
-      url =
-        "https://cors-anywhere.herokuapp.com/http://www.filltext.com/?rows=1000&id={number|1000}&firstName={firstName}&delay=3&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}";
-    }
-    this.fetchData(url);
   };
 
   selectRow = (state, rowInfo) => {
@@ -104,13 +86,7 @@ class App extends Component {
     }
 
     if (!data.length) {
-      return (
-        <ChooseDataLength
-          handleSelectSubmit={this.handleSelectSubmit}
-          handleSelectChange={this.handleSelectChange}
-          currentSelect={this.state.currentSelect}
-        />
-      );
+      return <ChooseDataLength fetchData={this.fetchData} />;
     }
 
     return (
