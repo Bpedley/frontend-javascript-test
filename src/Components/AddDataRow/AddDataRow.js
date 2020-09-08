@@ -8,7 +8,6 @@ const AddDataRow = ({ addRowData }) => {
     lastName: "",
     email: "",
     phone: "",
-    valid: false,
     expand: false
   });
 
@@ -29,8 +28,7 @@ const AddDataRow = ({ addRowData }) => {
   const handleChange = e => {
     setData({
       ...data,
-      [e.target.id]: e.target.value,
-      valid: e.target.validity.valid
+      [e.target.id]: e.target.value
     });
   };
 
@@ -40,6 +38,13 @@ const AddDataRow = ({ addRowData }) => {
       expand: !data.expand
     });
   };
+
+  const formValidation =
+    /^([0-9])+$/.test(data.id) &&
+    /^([A-Za-z])+$/.test(data.firstName) &&
+    /^([A-Za-z])+$/.test(data.lastName) &&
+    /^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$/.test(data.email) &&
+    /^[+]?[(]?[0-9]{3}[)]?[-s.]?[0-9]{3}[-s.]?[0-9]{4,6}$/.test(data.phone);
 
   if (!data.expand) {
     return (
@@ -54,18 +59,7 @@ const AddDataRow = ({ addRowData }) => {
       <button className="btn change-state" onClick={toggleForm}>
         Отменить
       </button>
-      <button
-        type="submit"
-        className="btn confirm"
-        disabled={
-          !data.valid ||
-          !data.id ||
-          !data.firstName ||
-          !data.lastName ||
-          !data.phone ||
-          !data.email
-        }
-      >
+      <button type="submit" className="btn confirm" disabled={!formValidation}>
         Добавить
       </button>
       <div className="input-fields">
@@ -75,6 +69,7 @@ const AddDataRow = ({ addRowData }) => {
           value={data.id}
           onChange={handleChange}
           type="number"
+          pattern="^([0-9])+$"
         ></input>
         <label htmlFor="firstName">Введите имя: </label>
         <input
@@ -82,7 +77,7 @@ const AddDataRow = ({ addRowData }) => {
           value={data.firstName}
           onChange={handleChange}
           type="text"
-          pattern="[a-zA-Z]+"
+          pattern="^([A-Za-z])+$"
         ></input>
         <label htmlFor="lastName">Введите фамилию: </label>
         <input
@@ -90,7 +85,7 @@ const AddDataRow = ({ addRowData }) => {
           value={data.lastName}
           onChange={handleChange}
           type="text"
-          pattern="[a-zA-Z]+"
+          pattern="^([A-Za-z])+$"
         ></input>
         <label htmlFor="email">Введите email: </label>
         <input
@@ -98,7 +93,7 @@ const AddDataRow = ({ addRowData }) => {
           value={data.email}
           onChange={handleChange}
           type="email"
-          pattern="[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+"
+          pattern="^\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*$"
         ></input>
         <label htmlFor="phone">Введите номер телефона: </label>
         <input
@@ -106,7 +101,7 @@ const AddDataRow = ({ addRowData }) => {
           value={data.phone}
           onChange={handleChange}
           type="tel"
-          pattern="^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"
+          pattern="^[+]?[(]?[0-9]{3}[)]?[-s.]?[0-9]{3}[-s.]?[0-9]{4,6}$"
         ></input>
       </div>
     </form>
