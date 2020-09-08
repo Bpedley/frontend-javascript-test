@@ -1,10 +1,10 @@
-form {
-  width: 100vw;
-  height: 100vh;
-  text-align: center;
+.formSelect {
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
   font-size: 1.2rem;
 
   input {

@@ -1,123 +1,101 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import ReactTable from "react-table-v6";
 import columns from "./assets/columns";
 import SelectedRow from "./Components/SelectedRow/SelectedRow";
 import ChooseDataLength from "./Components/ChooseDataLength/ChooseDataLength";
 import AddDataRow from "./Components/AddDataRow/AddDataRow";
+import SearchBar from "./Components/SearchBar";
+import Loader from "./Components/Loader";
 import "react-table-v6/react-table.css";
 import "./App.scss";
 
-class App extends Component {
-  state = {
-    data: [],
-    filteredData: [],
-    selected: [],
-    searchInput: "",
-    isLoading: false
-  };
+const App = () => {
+  const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [selectedRow, setSelectedRow] = useState([]);
+  const [searchValue, setSearchValue] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  fetchData = url => {
-    this.setState({ isLoading: true });
+  useEffect(() => {
+    handleFilterChange();
+    globalSearch();
+  }, [searchValue, data]); // eslint-disable-line
+
+  const fetchData = url => {
+    setIsLoading(true);
     fetch(url)
       .then(res => res.json())
       .then(data => {
-        this.setState({
-          data,
-          filteredData: data,
-          isLoading: false
-        });
+        setData(data);
+        setFilteredData(data);
+        setIsLoading(false);
       });
   };
 
-  handleFilterChange = e => {
-    const targetValue =
-      e === undefined ? this.state.searchInput : e.target.value;
-    this.setState({ searchInput: targetValue }, () => {
-      this.globalSearch();
-    });
+  const handleFilterChange = e => {
+    const targetValue = e === undefined ? searchValue : e.target.value;
+    setSearchValue(targetValue);
   };
 
-  selectRow = (state, rowInfo) => {
+  const globalSearch = () => {
+    let filteredData = data.filter(value => {
+      return (
+        value.id.toString().includes(searchValue) ||
+        value.firstName.toLowerCase().includes(searchValue.toLowerCase()) ||
+        value.lastName.toLowerCase().includes(searchValue.toLowerCase()) ||
+        value.email.toLowerCase().includes(searchValue.toLowerCase()) ||
+        value.phone.match(/\d+/g).join("").includes(searchValue)
+      );
+    });
+    setFilteredData(filteredData);
+  };
+
+  const selectRow = (_, rowInfo) => {
     return {
       onClick: () => {
-        if (rowInfo.row._original.email === this.state.selected.email) {
-          this.setState({
-            selected: []
-          });
+        if (rowInfo.row._original.email === selectedRow.email) {
+          setSelectedRow([]);
         } else {
-          this.setState({
-            selected: rowInfo.row._original
-          });
+          setSelectedRow(rowInfo.row._original);
         }
       }
     };
   };
 
-  globalSearch = () => {
-    let { searchInput, data } = this.state;
-    let filteredData = data.filter(value => {
-      return (
-        value.id.toString().includes(searchInput) ||
-        value.firstName.toLowerCase().includes(searchInput.toLowerCase()) ||
-        value.lastName.toLowerCase().includes(searchInput.toLowerCase()) ||
-        value.email.toLowerCase().includes(searchInput.toLowerCase()) ||
-        value.phone
-          .match(/\d+/g)
-          .join("")
-          .includes(searchInput)
-      );
-    });
-    this.setState({ filteredData });
+  const addRowData = rowData => {
+    const newData = [rowData, ...data];
+    setData(newData);
   };
 
-  addRowData = data => {
-    const newData = [data, ...this.state.data];
-    this.setState({
-      data: newData
-    });
-    this.handleFilterChange();
-  };
-
-  render() {
-    let { searchInput, filteredData, data, isLoading } = this.state;
-
-    if (isLoading) {
-      return <h1 className="loader">Идёт загрузка данных...</h1>;
-    }
-
-    if (!data.length) {
-      return <ChooseDataLength fetchData={this.fetchData} />;
-    }
-
-    return (
-      <>
-        <input
-          className="search"
-          value={searchInput}
-          onChange={this.handleFilterChange}
-          placeholder="Найти"
-        />
-        <AddDataRow addRowData={this.addRowData} />
-        <ReactTable
-          data={filteredData}
-          columns={columns}
-          defaultPageSize={10}
-          pageSizeOptions={[10, 25, 50]}
-          className="-striped -highlight"
-          getTrProps={this.selectRow}
-          defaultSorted={[{ id: "id", desc: false }]}
-          pageText="Страница"
-          rowsText="строк"
-          previousText="Предыдущая"
-          nextText="Следующая"
-          noDataText="Строки не найдены"
-        />
-        {this.state.selected.email ? (
-          <SelectedRow data={this.state.selected} />
-        ) : null}
-      </>
-    );
+  if (isLoading) {
+    return <Loader />;
   }
-}
+
+  if (!data.length) {
+    return <ChooseDataLength fetchData={fetchData} />;
+  }
+
+  return (
+    <main>
+      <SearchBar value={searchValue} handleFilterChange={handleFilterChange} />
+      <AddDataRow addRowData={addRowData} />
+      <ReactTable
+        data={filteredData}
+        columns={columns}
+        defaultPageSize={10}
+        pageSizeOptions={[10, 25, 50]}
+        className="-striped -highlight"
+        getTrProps={selectRow}
+        defaultSorted={[{ id: "id", desc: false }]}
+        pageText="Страница"
+        rowsText="строк"
+        previousText="Предыдущая"
+        nextText="Следующая"
+        noDataText="Строки не найдены"
+      />
+      {selectedRow.email ? <SelectedRow data={selectedRow} /> : null}
+    </main>
+  );
+};
 
 export default App;

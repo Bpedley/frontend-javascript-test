@@ -6,9 +6,14 @@
   transition: background-color 0.4s;
   width: 50%;
   height: 100%;
+  cursor: pointer;
 
   &:hover {
     background-color: rgb(230, 230, 230);
+  }
+
+  &:disabled {
+    cursor: not-allowed;
   }
 }
 
@@ -34,7 +39,6 @@
     width: 100%;
     max-width: 450px;
     min-width: 450px;
-    margin: 0 auto;
 
     @media screen and (max-width: 576px) {
       min-width: 200px;
