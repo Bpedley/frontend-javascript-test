@@ -7,11 +7,9 @@
   width: 50%;
   height: 100%;
   cursor: pointer;
-
   &:hover {
     background-color: rgb(230, 230, 230);
   }
-
   &:disabled {
     cursor: not-allowed;
   }
@@ -22,16 +20,13 @@
   flex-direction: column;
   padding: 25px 15px;
   background-color: rgb(240, 240, 240);
-
   label {
     text-align: center;
     margin: 15px 0 10px;
-
     &:first-child {
       margin-top: 0;
     }
   }
-
   input {
     font-size: 1.2rem;
     margin: 0 auto;
@@ -39,7 +34,6 @@
     width: 100%;
     max-width: 450px;
     min-width: 450px;
-
     @media screen and (max-width: 576px) {
       min-width: 200px;
     }
