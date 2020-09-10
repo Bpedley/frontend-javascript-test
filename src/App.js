@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import ReactTable from "react-table-v6";
-import { columns } from "./utils";
+import columns from "./assets/columns";
 import SelectedRow from "./Components/SelectedRow/SelectedRow";
 import ChooseDataLength from "./Components/ChooseDataLength/ChooseDataLength";
 import AddDataRow from "./Components/AddDataRow/AddDataRow";
