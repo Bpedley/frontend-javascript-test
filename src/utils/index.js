@@ -40,8 +40,31 @@ export const inputFields = [
   },
   {
     name: "phone",
-    desc: "телефона",
+    desc: "номер телефона",
     type: "tel",
     pattern: phone_pattern
+  }
+];
+
+export const columns = [
+  {
+    Header: "Id",
+    accessor: "id"
+  },
+  {
+    Header: "Имя",
+    accessor: "firstName"
+  },
+  {
+    Header: "Фамилия",
+    accessor: "lastName"
+  },
+  {
+    Header: "Email",
+    accessor: "email"
+  },
+  {
+    Header: "Номер телефона",
+    accessor: "phone"
   }
 ];
