@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import Button from "../Button";
 import "./ChooseDataLength.scss";
 
 const ChooseDataLength = ({ fetchData }) => {
@@ -18,14 +19,14 @@ const ChooseDataLength = ({ fetchData }) => {
 
   return (
     <form className="formSelect" onSubmit={handleSelectSubmit}>
-      <label>
+      <label className="formSelect__select">
         Выберите объем данных для таблицы:
         <select value={selected} onChange={handleSelectChange}>
           <option value="32 строки">32 строки</option>
           <option value="1000 строк">1000 строк</option>
         </select>
       </label>
-      <input type="submit" value="Подтвердить" />
+      <Button>Подтвердить</Button>
     </form>
   );
 };

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import InputField from "./InputField";
+import Button from "../Button";
 import { formValidation, inputFields } from "../../utils";
 import "./AddDataRow.scss";
 
@@ -24,6 +25,7 @@ const AddDataRow = ({ addRowData }) => {
       email: "",
       phone: ""
     });
+    setToggle(false);
   };
 
   const handleChange = e => {
@@ -36,19 +38,13 @@ const AddDataRow = ({ addRowData }) => {
   const toggleForm = () => setToggle(!toggle);
 
   if (!toggle) {
-    return (
-      <button className="btn" onClick={toggleForm}>
-        Добавить
-      </button>
-    );
+    return <Button toggleForm={toggleForm}>Добавить</Button>;
   }
 
   return (
     <form onSubmit={handleSubmit}>
-      <button className="btn" onClick={toggleForm}>
-        Отменить
-      </button>
-      <button type="submit" className="btn" disabled={!formValidation(data)}>
+      <Button toggleForm={toggleForm}>Отменить</Button>
+      <button className="btn" disabled={!formValidation(data)}>
         Добавить
       </button>
       <div className="input-fields">
