@@ -1,6 +1,6 @@
 import React from "react";
 
-const inputField = ({ id, value, pattern, desc, handleChange, type }) => {
+const InputField = ({ id, value, pattern, desc, handleChange, type }) => {
   return (
     <>
       <label htmlFor={id}>Введите {desc}:</label>
@@ -15,4 +15,4 @@ const inputField = ({ id, value, pattern, desc, handleChange, type }) => {
   );
 };
 
-export default inputField;
+export default InputField;
