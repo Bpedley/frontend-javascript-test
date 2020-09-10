@@ -4,44 +4,38 @@ import { formValidation, inputFields } from "../../utils";
 import "./AddDataRow.scss";
 
 const AddDataRow = ({ addRowData }) => {
-  const [data, setData] = useState({
+  const [toggle, setToggle] = useState(false);
+  const [data, setFormData] = useState({
     id: "",
     firstName: "",
     lastName: "",
     email: "",
-    phone: "",
-    expand: false
+    phone: ""
   });
 
   const handleSubmit = e => {
     e.preventDefault();
     const { id, firstName, lastName, email, phone } = data;
     addRowData({ id, firstName, lastName, email, phone });
-    setData({
+    setFormData({
       id: "",
       firstName: "",
       lastName: "",
       email: "",
-      phone: "",
-      expand: false
+      phone: ""
     });
   };
 
   const handleChange = e => {
-    setData({
+    setFormData({
       ...data,
       [e.target.id]: e.target.value
     });
   };
 
-  const toggleForm = () => {
-    setData({
-      ...data,
-      expand: !data.expand
-    });
-  };
+  const toggleForm = () => setToggle(!toggle);
 
-  if (!data.expand) {
+  if (!toggle) {
     return (
       <button className="btn" onClick={toggleForm}>
         Добавить
